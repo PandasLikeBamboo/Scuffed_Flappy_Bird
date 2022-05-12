@@ -35,6 +35,8 @@ public class Bird {
 
     public void draw(Graphics g){
         g.setColor(Color.cyan);
-        g.fillRect(x, y, 20, 20);
+        g.fillRoundRect(x, y, 20, 20,20,20);
+
+
     }
 }

@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
     private Bird bird = new Bird(150,300);
+    private Pipe pipe = new Pipe(600,300);
 
     private boolean isPlaying = false;
 
@@ -34,12 +35,14 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
         }
         bird.draw(g);
+        pipe.draw(g);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(isPlaying) {
            bird.move();
+           pipe.move();
         }
         repaint();
 
