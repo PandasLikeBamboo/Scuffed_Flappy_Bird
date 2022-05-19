@@ -12,7 +12,6 @@ public class Pipe {
     }
 
     public void move(){
-
         x -= 2;
     }
 
