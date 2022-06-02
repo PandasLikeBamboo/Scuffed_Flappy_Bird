@@ -1,3 +1,5 @@
+import org.w3c.dom.css.Rect;
+
 import java.awt.*;
 
 public class Bird {
@@ -7,19 +9,26 @@ public class Bird {
 
     private int velY;
 
+    private Rectangle rect;
+
     public Bird(int x, int y){
         this.x = x;
         this.y = y;
         this.velY = -20;
 
+        rect = new Rectangle(this.x, this.y , 20, 20);
+    }
+
+    public Rectangle getRect(){
+        return rect;
     }
 
     public void jump(){
 
         if(velY >= 0) {
-            velY = -20;
+            velY = -15;
         }else{
-            velY = 10;
+            velY = 5;
         }
     }
 
@@ -31,6 +40,8 @@ public class Bird {
             velY = 15;
         }
         y += velY;
+
+        rect = new Rectangle(x, y , 20, 20);
     }
 
     public void draw(Graphics g){

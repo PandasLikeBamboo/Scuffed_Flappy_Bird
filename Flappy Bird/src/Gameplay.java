@@ -5,28 +5,40 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
-    private Bird bird = new Bird(150,300);
-    private Pipe pipe = new Pipe(600,300);
+    private Bird bird;
+    private StopWatch pipeDelayer;
+    private int delayer;
 
     private boolean isPlaying = false;
 
-    private LinkedList<Pipe> pipeList = new LinkedList<>();
+    private LinkedList<Pipe> pipeList;
+
+    Random random;
 
     public Gameplay(){
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
+        random = new Random();
+
         int delay = 8;
         Timer timer = new Timer(delay, this);
         timer.start();
 
-        pipeList.add(new Pipe(300, 300));
-        pipeList.add(new Pipe(500, 250));
-        pipeList.add(new Pipe(700, 200));
+        bird = new Bird(150,300);
+        isPlaying = false;
+        pipeList = new LinkedList<>();
+
+        pipeDelayer = new StopWatch();
+        delayer = 2;
+
+
+
     }
 
     public void paint(Graphics g){
@@ -52,8 +64,29 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(isPlaying) {
            bird.move();
+
+           if((int)pipeDelayer.getElapsedTimeSeconds() >= delayer){
+
+               int randomHeight = random.nextInt(300);
+
+               pipeList.add(new Pipe(500, randomHeight + 250));
+               pipeList.add(new Pipe(500, randomHeight - 250));
+
+               pipeDelayer.start();
+
+           }
            for(Pipe pipe : pipeList){
                pipe.move();
+               if(bird.getRect().intersects(pipe.getRect2())){
+                   bird = new Bird(150,300);
+                   isPlaying = false;
+                   pipeList = new LinkedList<>();
+
+                   pipeDelayer = new StopWatch();
+                   delayer = 2;
+
+
+               }
            }
 
         }
